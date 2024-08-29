@@ -5,19 +5,19 @@ from fhir.resources.R4B import identifier
 from fhir.resources.R4B import quantity
 from fhir.resources.R4B import diagnosticreport
 from fhir.resources.R4B import codeableconcept
-import get_xml_values
-import get_xml_values
-import utils
+import sr_xml_to_fhir.get_xml_values as get_xml_values
+import sr_xml_to_fhir.get_xml_values as get_xml_values
+import sr_xml_to_fhir.utils as utils
 import hashlib
 
 from lxml import etree
 
-with open("befund14.xml", 'r', encoding='utf-8') as file:
+with open("befund.xml", 'r', encoding='utf-8') as file:
     xml_string = file.read()
 root = etree.fromstring(xml_string)
 
-output_path = "C:/Users/iancuaa/Desktop/output/"
-counter = 0
+output_path = ""
+counter = 1
 
 
 def create_dr():

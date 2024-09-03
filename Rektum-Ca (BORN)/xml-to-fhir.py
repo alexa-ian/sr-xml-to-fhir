@@ -5,19 +5,28 @@ from fhir.resources.R4B import identifier
 from fhir.resources.R4B import quantity
 from fhir.resources.R4B import diagnosticreport
 from fhir.resources.R4B import codeableconcept
-import sr_xml_to_fhir.get_xml_values as get_xml_values
-import sr_xml_to_fhir.get_xml_values as get_xml_values
-import sr_xml_to_fhir.utils as utils
+import os, sys
 import hashlib
-
 from lxml import etree
 
-with open("befund.xml", 'r', encoding='utf-8') as file:
+import get_xml_values
+
+add_path = os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), ".."
+    )
+)
+sys.path.append(add_path)
+
+import utils
+
+input_path = ""
+output_path = "C:/Users/iancuaa/Desktop/output/"
+counter = 1
+
+with open(input_path, 'r', encoding='utf-8') as file:
     xml_string = file.read()
 root = etree.fromstring(xml_string)
-
-output_path = ""
-counter = 1
 
 
 def create_dr():
@@ -61,47 +70,47 @@ def create_dr():
 
     observations = []
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/Analkanal", result=get_xml_values.get_analkanal(root),
-                          code=("249653002", "Anal canal finding"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean") is not None:
+    hashedIdentifier_analkanal = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_analkanal(root),
+                                                    code=("249653002", "Anal canal finding"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean")
+    if hashedIdentifier_analkanal is not None:
         analkanal = reference.Reference()
-        analkanal.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/Analkanal"
+        analkanal.reference = "Observation/" + hashedIdentifier_analkanal
         observations.append(analkanal)
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/MRF", result=get_xml_values.get_MRF(root), code=("408655002",
-                                                                                                                               "Status of intactness of mesorectal specimen"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean") is not None:
+    hashedIdentifier_MRF = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_MRF(root), code=("408655002",
+                                                                                                                                            "Status of intactness of mesorectal specimen"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean")
+    if hashedIdentifier_MRF is not None:
         MRF = reference.Reference()
-        MRF.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/MRF"
+        MRF.reference = "Observation/" + hashedIdentifier_MRF
         observations.append(MRF)
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/EMVI", result=get_xml_values.get_EMVI(root), code=("1286755009",
-                                                                                                                                 "Presence of direct invasion by primary malignant neoplasm of cecum and/or colon and/or rectum to blood vessel in pericolic tissue"),
-                          patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean") is not None:
+    hashedIdentifier_EMVI = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_EMVI(root), code=("1286755009",
+                                                                                                                                              "Presence of direct invasion by primary malignant neoplasm of cecum and/or colon and/or rectum to blood vessel in pericolic tissue"),
+                                               patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="boolean")
+    if hashedIdentifier_EMVI is not None:
         EMVI = reference.Reference()
-        EMVI.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/EMVI"
+        EMVI.reference = "Observation/" + hashedIdentifier_EMVI
         observations.append(EMVI)
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/Tumor-Oberrand", result=get_xml_values.get_höhe_tumor_oberrand(root),
-                          code=None, patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="quantity", text="Höhe des Tumor-Oberrandes ab ano") is not None:
+    hashedIdentifier_oberrand = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_höhe_tumor_oberrand(root),
+                                                   code=None, patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="quantity", text="Höhe des Tumor-Oberrandes ab ano")
+    if hashedIdentifier_oberrand is not None:
         hoehe_oberrand = reference.Reference()
-        hoehe_oberrand.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/Tumor-Oberrand"
+        hoehe_oberrand.reference = "Observation/" + hashedIdentifier_oberrand
         observations.append(hoehe_oberrand)
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/Tumor-Unterrand", result=get_xml_values.get_höhe_tumor_unterrand(root),
-                          code=None, patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="quantity", text="Höhe des Tumor-Unterrandes ab ano", sop_instance_available=True) is not None:
+    hashedIdentifier_unterrand = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_höhe_tumor_unterrand(root),
+                                                    code=None, patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="quantity", text="Höhe des Tumor-Unterrandes ab ano", sop_instance_available=True)
+    if hashedIdentifier_unterrand is not None:
         hoehe_unterrand = reference.Reference()
-        hoehe_unterrand.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/Tumor-Unterrand"
+        hoehe_unterrand.reference = "Observation/" + hashedIdentifier_unterrand
         observations.append(hoehe_unterrand)
 
-    if create_observation(ident=patID9+"/"+str(get_xml_values.get_id(root))+"/TNM", result=get_xml_values.get_TNM(root), code=("260879005",
-                                                                                                                               "International Union Against Cancer stage grouping"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="component-codeableconcept") is not None:
+    hashedIdentifier_TNM = create_observation(ident=patID9+"-"+str(get_xml_values.get_id(root)), result=get_xml_values.get_TNM(root), code=("260879005",
+                                                                                                                                            "International Union Against Cancer stage grouping"), patientRef=patientRef, acsn=get_xml_values.get_acsn(root), type="component-codeableconcept")
+    if hashedIdentifier_TNM is not None:
         TNM = reference.Reference()
-        TNM.reference = "Observation/" + \
-            str(get_xml_values.get_id(root))+"/TNM"
+        TNM.reference = "Observation/" + hashedIdentifier_TNM
         observations.append(TNM)
 
     data["result"] = observations
@@ -133,18 +142,22 @@ def create_observation(ident, result, code, patientRef, acsn, type, text=None, s
 
     obs_data = {}
 
-    obs_data["identifier"] = [identifier.Identifier(value=ident)]
-    obs_data["id"] = "TODO"
+    ident = ident + str(counter)
+    hashedIdentifier = hashlib.sha256(ident.encode('utf-8')).hexdigest()
+    obs_data["identifier"] = [identifier.Identifier(value=hashedIdentifier)]
+    obs_data["id"] = ident
     obs_data["status"] = "final"
     obs_data["category"] = [utils.gen_codeable_concept(
         ["imaging"], "http://terminology.hl7.org/CodeSystem/observation-category", "Imaging")]
-    
+
     if code is None:
-         c = codeableconcept.CodeableConcept()
-         c.text = text
-         obs_data["code"] = c
+        c = codeableconcept.CodeableConcept()
+        c.text = text
+        obs_data["code"] = c
     else:
-        obs_data["code"] = utils.gen_codeable_concept([code[0]], "http://snomed.info/sct", code[1])
+        obs_data["code"] = utils.gen_codeable_concept(
+            [code[0]], "http://snomed.info/sct", code[1])
+
     obs_data["subject"] = patientRef
     derivedFrom = reference.Reference()
     derivedFrom.reference = "ImagingStudy/"+acsn
@@ -201,7 +214,7 @@ def create_observation(ident, result, code, patientRef, acsn, type, text=None, s
 
     counter += 1
 
-    return obs
+    return hashedIdentifier
 
 
 create_dr()

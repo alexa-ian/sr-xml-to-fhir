@@ -8,7 +8,7 @@ def get_patient(root):
 
 def get_id(root):
 
-    id = root.xpath('//Case/@CaseID')
+    id = root.xpath('//Task/@AssessmentID')
 
     return int(id[0])
 
@@ -121,8 +121,11 @@ def get_TNM(root):
 
     M = root.xpath('//Question[@Label="M-Kategorie"]/@Answer')
 
+    if T == [''] and N == [''] and M == ['']:
+        return None
+    
     if N == [''] and M == ['']:
-        return (str(T[0]))
+        return ([str(T[0])])
 
     if M == ['']:
         return (str(T[0]),str(N[0]))

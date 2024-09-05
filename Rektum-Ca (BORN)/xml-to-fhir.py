@@ -1,5 +1,6 @@
 from fhir.resources import R4B as fr
 from fhir.resources.R4B import reference
+from fhir.resources.R4B import meta
 from fhir.resources.R4B import observation
 from fhir.resources.R4B import identifier
 from fhir.resources.R4B import quantity
@@ -32,6 +33,9 @@ root = etree.fromstring(xml_string)
 def create_dr():
 
     data = {}
+
+    m = meta.Meta(profile=["https://www.medizininformatik-initiative.de/fhir/ext/modul-bildgebung/StructureDefinition/mii-pr-bildgebung-bildgebungsstudie"])
+    data["meta"] = m
 
     patID9 = str(get_xml_values.get_patient(root))[:9]
     patIdentifier = "https://fhir.diz.uk-erlangen.de/identifiers/patient-id|"+patID9
@@ -141,6 +145,9 @@ def create_observation(ident, result, code, patientRef, acsn, type, text=None, s
     global counter
 
     obs_data = {}
+
+    m = meta.Meta(profile=["https://www.medizininformatik-initiative.de/fhir/ext/modul-bildgebung/StructureDefinition/mii-pr-bildgebung-bildgebungsstudie"])
+    obs_data["meta"] = m
 
     ident = ident + str(counter)
     hashedIdentifier = hashlib.sha256(ident.encode('utf-8')).hexdigest()
